@@ -3,7 +3,8 @@ Includes example of SVD from Intel MKL library
 Written by Sergey Voronin. 
 Last updated: August 2014.
 Note: this is the initial release (v. 0.1), need more error checking
-
+Should work on any recent Linux distribution.
+Tested on opensuse 13.1 with icc 14.03 and matlab R2013b.
 
 ========= what is this ==============================
 
