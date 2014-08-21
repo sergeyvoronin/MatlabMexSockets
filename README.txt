@@ -24,8 +24,8 @@ with a randomly chosen port number between 1000 and 2000 (note: if you have a fi
 please adjust port numbers accordingly in the wrapper). Then the wrapper 
 passes the data to the mex client and the mex client communicates with the socket server 
 via sockets. The server does the computation and sends the results back to the mex client 
-via sockets. The mex client then return the results to the wrapper which returns them to 
-the matlab session or script from which it was called.
+via sockets. The mex client receives results from the compute server and passes the results 
+to the matlab wrapper which returns them to the matlab session or script from which it was called.
 
 
 ========= summary of installation and usage =========
