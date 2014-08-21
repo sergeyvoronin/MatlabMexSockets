@@ -32,10 +32,12 @@ via sockets. The mex client then return the results to matlab.
 
 1) Install Intel MKL (for this example)
 
+Follow instructions from Intel website (basically download install package and unpack)
+
 source /opt/intel/bin/compilervars.sh intel64
 
 
-2) Compile code (svd code from mk library, socket client/server)
+2) Compile code (svd code from mkl library, socket client/server)
 
 Basically, the compilation looks something like below. You must put the proper path to your 
 matlab installation.
