@@ -71,4 +71,23 @@ ans =
 
    1.1364e-11
 
+>>  norm(U'*U-eye(size(U,2)))
+
+ans =
+
+   2.9218e-14
+
+>> norm(Vt*Vt'-eye(size(Vt,1)))
+
+ans =
+
+   4.6965e-14
+
+>> norm(S-diag(diag(S)))
+
+ans =
+
+     0
+
 >> 
+
