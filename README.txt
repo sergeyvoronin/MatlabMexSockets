@@ -15,7 +15,8 @@ a code with the Intel MKL library to do the SVD, but the socket interface can be
 for other libraries too. This is useful because it is often difficult to build matlab 
 mex files linked with external libraries (like MKL) and running in parallel. This code 
 completely separates the mex file and the compute engine (the compute engine can even 
-run on a different machine).
+run on a different machine, so for example you can run a matlab code on a laptop and 
+have the SVD computation inside be done for you on a local server).
 
 
 ========= how it works ==============================
@@ -27,7 +28,9 @@ passes the data to the mex client and the mex client communicates with the socke
 via sockets. The server does the computation and sends the results back to the mex client 
 via sockets. The mex client receives results from the compute server and passes the results 
 to the matlab wrapper which returns them to the matlab session or script from which it was called.
-
+The reads and writes between the socket server and client are performed in a synchronous 
+manner using a small amount of disk i/o (i.e. server sends client data when client is ready 
+and vice versa). This is done to minimize possibility of errors with transfers.
 
 ========= summary of installation and usage =========
 
