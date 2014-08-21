@@ -124,16 +124,11 @@ int main(int argc, char *argv[])
         // init space for all elements 
         elements_all = (double*)malloc(nelements*sizeof(double));
 
-        // tell client we read dimensions and are ready to read data
-        /*fp = fopen("instruction_file.txt","w");
-        fprintf(fp,"1\n");
-        fclose(fp);*/
-
+        
         // read all elements
         mark_ready(fname_server);
         read_elements_from_socket(newsockfd, nelements, elements_all);
         mark_busy(fname_server);
-        ////sleep_funct();
 
         
         // set up matrix using the read data
