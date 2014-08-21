@@ -97,12 +97,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
 
     nelements = m*n;
 
-    // setup instruction file
-    /*fp = fopen("instruction_file.txt","w");
-    fprintf(fp,"-2\n");
-    fclose(fp);*/
-
-
+    
     // broadcast
     printf("broadcast m=%d and n=%d\n", m, n);
     wait_for_ready(fname_server);
@@ -224,10 +219,6 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
 
     close(sockfd);
     free(Uarr); free(Sarr); free(Vtarr);
-    /*mxFree(Uarr);
-    mxFree(Sarr);
-    mxFree(Vtarr);*/
-    /*mxFree(dims_read);*/
     return;
 }
 
