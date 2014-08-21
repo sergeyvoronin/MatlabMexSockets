@@ -34,10 +34,13 @@ and vice versa). This is done to minimize possibility of errors with transfers.
 
 ========= summary of installation and usage =========
 
+The following steps are for the use of the included SVD example. The example uses 
+the Intel MKL library. The socket code can be used with different libraries also.
 
-1) Install Intel MKL (for this example)
+1) Install Intel C Compiler (icc) and Math Kernel Library (MKL) 
 
 Follow instructions from Intel website (basically download install package and unpack)
+Afterwards, to set paths, use (in bash shell):
 
 source /opt/intel/bin/compilervars.sh intel64
 
@@ -51,6 +54,7 @@ icc -fpic -shared -DMATLAB_MEX_FILE -fno-omit-frame-pointer -pthread -I "/usr/lo
 
 icc -mkl -openmp svd_with_socket_server_intel_mkl.c socket_functions.c matrix_vector_functions_intel_mkl.c  -o svd_with_socket_server_intel_mkl
 
+You can modify the compile.sh script with proper paths and run that to compile.
 
 3) Run the code
 
