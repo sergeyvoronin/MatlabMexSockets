@@ -21,10 +21,11 @@ run on a different machine).
 
 Matlab passes data (matrix) to the wrapper. Wrapper m-file calls up the socket server 
 with a randomly chosen port number between 1000 and 2000 (note: if you have a firewall, 
-please adjust port numbers accordingly in the wrapper). Then wrapper calls the mex client, 
-passes data to the mex client and the mex client communicates with the socket server 
-via sockets. The server does the computation and send the result back to the mex client 
-via sockets. The mex client then return the results to matlab.
+please adjust port numbers accordingly in the wrapper). Then the wrapper 
+passes the data to the mex client and the mex client communicates with the socket server 
+via sockets. The server does the computation and sends the results back to the mex client 
+via sockets. The mex client then return the results to the wrapper which returns them to 
+the matlab session or script from which it was called.
 
 
 ========= summary of installation and usage =========
