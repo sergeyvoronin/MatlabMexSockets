@@ -49,18 +49,23 @@ source /opt/intel/bin/compilervars.sh intel64
 
 2) Compile code (svd code from mkl library, socket client/server)
 
-Basically, the compilation looks something like below. You must put the proper path to your 
-matlab installation.
+The compilation looks something like below for the SVD example, similar for QR. 
+You must put the proper path to your matlab installation.
 
 icc -fpic -shared -DMATLAB_MEX_FILE -fno-omit-frame-pointer -pthread -I "/usr/local/MATLAB/R2013b/extern/include" svd_mex_client.c socket_functions.c -L"/usr/local/MATLAB/R2013b/bin/glnxa64" -Wl,--version-script,"/usr/local/MATLAB/R2013b/extern/lib/glnxa64/mexFunction.map"  -lmex -lmx -lmat -lm -o svd_mex_client.mexa64
 
 icc -mkl -openmp svd_with_socket_server_intel_mkl.c socket_functions.c matrix_vector_functions_intel_mkl.c  -o svd_with_socket_server_intel_mkl
 
-You can modify the compile.sh script with proper paths and run that to compile.
+You can modify the compile.sh script with proper paths and run that to compile all the examples.
 
 3) Run the code
 
-Open Matlab in same directory
+First make a directory called logs. This is needed for i/o communication between 
+server and client.
+
+mkdir logs/
+
+Open Matlab in same directory as the compiled code.
 make sure intel mkl paths are set properly
 i.e. source /opt/intel/bin/compilervars.sh intel64
 

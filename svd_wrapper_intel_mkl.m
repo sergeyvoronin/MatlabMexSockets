@@ -1,9 +1,6 @@
 % wrapper for SVD with socket server; note port is chosen randomly from 1000 to 2000
 % please adjust accordingly for different systems
 function [U,S,Vt] = svd_wrapper_intel_mkl(A)
-    % set up logs dir if doesn't exist
-    system('mkdir logs');
-
     fprintf('picking port..\n');
     port_ok = -1;
     while port_ok < 0
