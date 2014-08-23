@@ -4,15 +4,16 @@ Written by Sergey Voronin.
 Last updated: August 2014.
 Note: this is the initial release (v. 0.1), need more error checking
 Should work on any recent Linux distribution.
-Tested on opensuse 13.1 with icc 14.03 and matlab R2013b.
+Tested on opensuse 13.1 with icc 14.03 and matlab 2013b and 2014a.
 
 ========= what is this ==============================
 
 This is a socket interface for passing data between matlab and an external program. 
 This is useful for performing a large scale computation in matlab which is programmed 
-with an external library (probably with parallelization). In the example here, we create 
-a code with the Intel MKL library to do the SVD, but the socket interface can be used 
-for other libraries too. This is useful because it is often difficult to build matlab 
+with an external library (probably with parallelization). In the examples here, we create 
+a code with the Intel MKL library to do the SVD and pivoted QR decompositions, 
+but the socket interface can be used for other libraries too. 
+This is useful because it is often difficult to build matlab 
 mex files linked with external libraries (like MKL) and running in parallel. This code 
 completely separates the mex file and the compute engine (the compute engine can even 
 run on a different machine, so for example you can run a matlab code on a laptop and 
@@ -34,7 +35,7 @@ and vice versa). This is done to minimize possibility of errors with transfers.
 
 ========= summary of installation and usage =========
 
-The following steps are for the use of the included SVD example. The example uses 
+The following steps are for the use of the included SVD and QR examples. The examples use 
 the Intel MKL library. The socket code can be used with different libraries also.
 
 1) Install Intel C Compiler (icc) and Math Kernel Library (MKL) 
@@ -95,6 +96,30 @@ ans =
 ans =
 
      0
+
+>> 
+
+Run the QR wrapper:
+
+>> [Q,R,P,I] = qr_full_rank_wrapper_intel_mkl(A);
+
+>> norm(A(:,I) - Q*R)
+
+ans =
+
+   1.0397e-12
+
+>> norm(A - Q*R*P')     
+
+ans =
+
+   1.0397e-12
+
+>> norm(Q*Q' - eye(size(Q,2)))
+
+ans =
+
+   7.3662e-15
 
 >> 
 
