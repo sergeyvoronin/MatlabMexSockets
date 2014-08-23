@@ -11,8 +11,9 @@ Tested on opensuse 13.1 with icc 14.03 and matlab 2013b and 2014a.
 This is a socket interface for passing data between matlab and an external program. 
 This is useful for performing a large scale computation in matlab which is programmed 
 with an external library (probably with parallelization). In the examples here, we create 
-a code with the Intel MKL library to do the SVD and pivoted QR decompositions, 
-but the socket interface can be used for other libraries too. 
+a code with the Intel MKL library to do the SVD and pivoted QR decompositions and are able 
+to call these functions from matlab using the socket interface. This is just an example, 
+the socket interface can be used for other libraries too. 
 This is useful because it is often difficult to build matlab 
 mex files linked with external libraries (like MKL) and running in parallel. This code 
 completely separates the mex file and the compute engine (the compute engine can even 
