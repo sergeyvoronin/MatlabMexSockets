@@ -1,5 +1,5 @@
 Socket Code for Mex Interface
-Includes example of SVD from Intel MKL library
+Includes example of SVD and pivoted QR from Intel MKL library
 Written by Sergey Voronin. 
 Last updated: August 2014.
 Note: this is the initial release (v. 0.1), need more error checking
