@@ -184,6 +184,7 @@ int main(int argc, char *argv[])
         printf("call full QR..\n");
         pivotedQR_mkl(M, &Qk, &Rk, &P, &I);
         matrix_hard_threshold(Rk,1e-12);
+        mark_ready(fname_server);
         printf("finished QR.\n");
 
         // record info

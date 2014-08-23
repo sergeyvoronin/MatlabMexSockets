@@ -107,6 +107,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
     wait_for_ready(fname_server);
     write_elements_to_socket(sockfd, nelements, pr);
     printf("done transfer. doing computation..\n");
+    wait_for_ready(fname_server);
+    printf("done with computation.\n");
 
     
     // read dimensions

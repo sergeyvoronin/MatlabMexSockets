@@ -222,7 +222,7 @@ void wait_for_ready(char *fname){
 
 
 void sleep_funct(){
-    nanosleep((struct timespec[]){{0, 260000000}}, NULL);
+    nanosleep((struct timespec[]){{0, 360000000}}, NULL);
 }
 
 void sleep_funct2(){
