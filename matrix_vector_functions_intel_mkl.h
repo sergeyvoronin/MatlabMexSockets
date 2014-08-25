@@ -136,9 +136,12 @@ void matrix_set_row(mat *M, int i, vec *row_vec);
 
 
 
-/* keep only upper triangular matrix part of matrix in S from M */
+/* copy only upper triangular matrix part of matrix in S from M */
 void matrix_copy_symmetric(mat *S, mat *M);
 
+
+/* keep only upper triangular matrix part of matrix in S from M */
+void matrix_keep_only_upper_triangular(mat *M);
 
 
 /* initialize diagonal matrix from vector data */

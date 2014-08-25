@@ -368,7 +368,7 @@ void matrix_set_row(mat *M, int i, vec *row_vec){
 
 
 
-/* keep only upper triangular matrix part as for symmetric matrix */
+/* copy only upper triangular matrix part as for symmetric matrix */
 void matrix_copy_symmetric(mat *S, mat *M){
     int i,j,n,m;
     m = M->nrows;
@@ -382,6 +382,21 @@ void matrix_copy_symmetric(mat *S, mat *M){
     }
 }
 
+
+
+/* copy only upper triangular matrix part as for symmetric matrix */
+void matrix_keep_only_upper_triangular(mat *M){
+    int i,j,n,m;
+    m = M->nrows;
+    n = M->ncols;
+    for(i=0; i<m; i++){
+        for(j=0; j<n; j++){
+            if(j<i){
+                matrix_set_element(M,i,j,0);
+            }
+        }
+    }
+}
 
 
 
