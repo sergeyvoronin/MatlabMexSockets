@@ -191,6 +191,14 @@ void mark_ready(char *fname){
 }
 
 
+void mark_done_with_computation(char *fname){
+    FILE *fp;
+    fp = fopen(fname,"w");
+    fprintf(fp,"2\n");
+    fclose(fp); 
+}
+
+
 void mark_busy(char *fname){
     FILE *fp;
     fp = fopen(fname,"w");
@@ -219,6 +227,17 @@ void wait_for_ready(char *fname){
         sleep(1);
     }
 }
+
+
+void wait_for_done_with_computation(char *fname){
+    FILE *fp;
+    int mark = 0;
+    while(mark < 2){
+        mark = get_mark(fname); 
+        sleep(1);
+    }
+}
+
 
 
 void sleep_funct(){

@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
         printf("call SVD..\n");
         singular_value_decomposition(M, &U, &S, &Vt);
         printf("finished SVD.\n");
-        mark_ready(fname_server);
+        mark_done_with_computation(fname_server);
 
         // optionally, record info
         /*fp = fopen("svd_info.txt", "w");

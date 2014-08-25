@@ -35,6 +35,10 @@ int get_mark(char *fname);
 void wait_for_ready(char *fname);
 
 
+void mark_done_with_computation(char *fname);
+
+
+void wait_for_done_with_computation(char *fname);
 
 void sleep_funct();
 

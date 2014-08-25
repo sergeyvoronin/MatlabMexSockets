@@ -110,7 +110,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
     write_elements_to_socket(sockfd, nelements, pr);
     printf("done transfer. doing computation..\n");
     sleep_funct();
-    wait_for_ready(fname_server);
+    wait_for_done_with_computation(fname_server);
     printf("done with computation.\n");
     
 
