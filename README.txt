@@ -4,20 +4,20 @@ Written by Sergey Voronin.
 Last updated: August 2014.
 Note: this is the initial release (v. 0.1), need more error checking
 Should work on any recent Linux distribution.
-Tested on opensuse 13.1 with icc 14.03 and matlab 2013b and 2014a.
+Tested on opensuse 13.1 with icc 14.03 and Matlab 2013b and 2014a.
 
 ========= what is this ==============================
 
-This is a socket interface for passing data between matlab and an external program. 
-This is useful for performing a large scale computation in matlab which is programmed 
+This is a socket interface for passing data between Matlab and an external program. 
+This is useful for performing a large scale computation in Matlab which is programmed 
 with an external library (probably with parallelization). In the examples here, we create 
 a code with the Intel MKL library to do the SVD and pivoted QR decompositions and are able 
-to call these functions from matlab using the socket interface. This is just an example, 
+to call these functions from Matlab using the socket interface. This is just an example, 
 the socket interface can be used for other libraries too. 
-This is useful because it is often difficult to build matlab 
+This is useful because it is often difficult to build Matlab 
 mex files linked with external libraries (like MKL) and running in parallel. This code 
 completely separates the mex file and the compute engine (the compute engine can even 
-run on a different machine, so for example you can run a matlab code on a laptop and 
+run on a different machine, so for example you can run a Matlab code on a laptop and 
 have the SVD computation inside be done for you on a local server).
 
 
@@ -29,7 +29,7 @@ please adjust port numbers accordingly in the wrapper). Then the wrapper
 passes the data to the mex client and the mex client communicates with the socket server 
 via sockets. The server does the computation and sends the results back to the mex client 
 via sockets. The mex client receives results from the compute server and passes the results 
-to the matlab wrapper which returns them to the matlab session or script from which it was called.
+to the Matlab wrapper which returns them to the Matlab session or script from which it was called.
 The reads and writes between the socket server and client are performed in a synchronous 
 manner using a small amount of disk i/o (i.e. server sends client data when client is ready 
 and vice versa). This is done to minimize possibility of errors with transfers.
@@ -50,7 +50,7 @@ source /opt/intel/bin/compilervars.sh intel64
 2) Compile code (svd code from mkl library, socket client/server)
 
 The compilation looks something like below for the SVD example, similar for QR. 
-You must put the proper path to your matlab installation.
+You must put the proper path to your Matlab installation.
 
 icc -fpic -shared -DMATLAB_MEX_FILE -fno-omit-frame-pointer -pthread -I "/usr/local/MATLAB/R2013b/extern/include" svd_mex_client.c socket_functions.c -L"/usr/local/MATLAB/R2013b/bin/glnxa64" -Wl,--version-script,"/usr/local/MATLAB/R2013b/extern/lib/glnxa64/mexFunction.map"  -lmex -lmx -lmat -lm -o svd_mex_client.mexa64
 
