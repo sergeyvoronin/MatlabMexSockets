@@ -220,7 +220,6 @@ int get_mark(char *fname){
 
 
 void wait_for_ready(char *fname){
-    FILE *fp;
     int mark = 0;
     while(mark < 1){
         mark = get_mark(fname); 
@@ -230,7 +229,6 @@ void wait_for_ready(char *fname){
 
 
 void wait_for_done_with_computation(char *fname){
-    FILE *fp;
     int mark = 0;
     while(mark < 2){
         mark = get_mark(fname); 

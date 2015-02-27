@@ -1,7 +1,6 @@
 Socket Code for Mex Interface
 Includes example of SVD and pivoted QR from Intel MKL library
-Written by Sergey Voronin. 
-Last updated: August 2014.
+Written by Sergey Voronin, 2014 - 2015. 
 Should work on any recent Linux distribution.
 Tested on opensuse 13.1 with icc 14.03 and Matlab 2013b and 2014a.
 
