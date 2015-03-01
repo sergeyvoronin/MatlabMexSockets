@@ -1,5 +1,6 @@
 Socket Code for Mex Interface
-Includes example of SVD and pivoted QR from Intel MKL library
+Includes example of calling from Matlab the SVD from NVIDIA CULA and 
+SVD and pivoted QR from Intel MKL library
 Written by Sergey Voronin, 2014 - 2015. 
 Should work on any recent Linux distribution.
 Tested on opensuse 13.1 with icc 14.03 and Matlab 2013b and 2014a.
@@ -7,13 +8,16 @@ Tested on opensuse 13.1 with icc 14.03 and Matlab 2013b and 2014a.
 ========= what is this ==============================
 
 This is a socket interface for passing data between Matlab and an external program. 
-This is useful for performing a large scale computation in Matlab which is programmed 
-with an external library (probably with parallelization). In the examples here, we create 
-a code with the Intel MKL library to do the SVD and pivoted QR decompositions and are able 
+This is useful for performing a computation in Matlab which is programmed 
+with an external library (probably with parallelization - such as on GPU). 
+In the examples here, we create 
+a code with the NVIDIA CULA library and the Intel MKL library to do the SVD 
+and pivoted QR decompositions and are able 
 to call these functions from Matlab using the socket interface. This is just an example, 
 the socket interface can be used for other libraries too. 
 This is useful because it is often difficult to build Matlab 
-mex files linked with external libraries (like MKL) and running in parallel. This code 
+mex files linked with external libraries (like CULA and MKL) and running 
+in parallel. This code 
 completely separates the mex file and the compute engine (the compute engine can even 
 run on a different machine, so for example you can run a Matlab code on a laptop and 
 have the SVD computation inside be done for you on a local server).
@@ -34,16 +38,22 @@ and vice versa). This is done to minimize possibility of errors with transfers.
 
 ========= summary of installation and usage =========
 
-The following steps are for the use of the included SVD and QR examples. The examples use 
-the Intel MKL library. The socket code can be used with different libraries also.
+The following steps are for the use of the included SVD examples. The examples use 
+the Intel MKL library and the NVIDIA CULA library and are callable 
+from Matlab. The socket code can be used with different libraries also.
 
 1) Install Intel C Compiler (icc) and Math Kernel Library (MKL) 
+OR gcc and the CULA library
 
+For Intel MKL:
 Follow instructions from Intel website (basically download install package and unpack)
 Afterwards, to set paths, use (in bash shell):
 
 source /opt/intel/bin/compilervars.sh intel64
 
+For NVIDIA CULA:
+change parameters accordingly in setup_vars.sh and then run:
+source setup_vars.sh 
 
 2) Compile code (svd and qr codes from mkl library, mex files, socket client/server) - use the included compile.sh script
 
@@ -62,7 +72,11 @@ icc -fpic -shared -DMATLAB_MEX_FILE -fno-omit-frame-pointer -pthread -I $MATLAB_
 
 icc -mkl -openmp -I "$SOCKET_INCLUDE" svd_with_socket_server_intel_mkl.c "$SOCKET_INCLUDE"/socket_functions.c matrix_vector_functions_intel_mkl.c  -o svd_with_socket_server_intel_mkl
 
+For the CULA code it looks something like this:
 
+gcc -fpic -shared -DMATLAB_MEX_FILE -fno-omit-frame-pointer -pthread -I $MATLAB_INCLUDE -I $SOCKET_INCLUDE svd_mex_client.c "$SOCKET_INCLUDE"/socket_functions.c -L"$MATLAB_LIB" -Wl,--version-script,"$MATLAB_MAP_FILE"  -lmex -lmx -lmat -lm -o svd_mex_client.mexa64
+
+nvcc -I "$SOCKET_INCLUDE" svd_with_socket_server_nvidia_cula.c "$SOCKET_INCLUDE"/socket_functions.c matrix_vector_functions_nvidia_cula.c  -o svd_with_socket_server_nvidia_cula -Xcompiler -fopenmp -lcula_lapack -lcublas -lcudart -liomp5 -L$CULA_LIB_PATH_64 -I$CULA_INC_PATH
 
 You can modify the compile.sh script with proper paths and run that to compile all the examples.
 
@@ -78,14 +92,29 @@ Open Matlab in same directory as the compiled code.
 make sure intel mkl paths are set properly in the terminal shell 
 where Matlab is launched from
 i.e. source /opt/intel/bin/compilervars.sh intel64
+If using CULA, make sure you source the CULA vars.
 
 Create matrix:
 
 >> A = rand(2000,3000);
 
-Run svd wrapper:
+Run SVD CULA wrapper:
 
->> [U,S,Vt] = svd_wrapper_intel_mkl(A);
+>> [U,S,Vt] = svd_wrapper_nvidia_cula(A); % computation done on GPU
+
+Check result:
+
+>> norm(A - U*S*Vt)
+
+ans =
+
+   2.6487e-12
+
+>> 
+
+Run SVD MKL wrapper:
+
+>> [U,S,Vt] = svd_wrapper_intel_mkl(A); % computation done on CPU with MKL lib
 
 Check result:
 
@@ -115,7 +144,7 @@ ans =
 
 >> 
 
-Run the QR wrapper:
+For the QR wrapper:
 
 >> [Q,R,P,I] = qr_full_rank_wrapper_intel_mkl(A);
 
