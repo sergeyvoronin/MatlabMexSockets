@@ -45,26 +45,38 @@ Afterwards, to set paths, use (in bash shell):
 source /opt/intel/bin/compilervars.sh intel64
 
 
-2) Compile code (svd code from mkl library, socket client/server)
+2) Compile code (svd and qr codes from mkl library, mex files, socket client/server) - use the included compile.sh script
 
 The compilation looks something like below for the SVD example, similar for QR. 
 You must put the proper path to your Matlab installation.
 
-icc -fpic -shared -DMATLAB_MEX_FILE -fno-omit-frame-pointer -pthread -I "/usr/local/MATLAB/R2013b/extern/include" svd_mex_client.c socket_functions.c -L"/usr/local/MATLAB/R2013b/bin/glnxa64" -Wl,--version-script,"/usr/local/MATLAB/R2013b/extern/lib/glnxa64/mexFunction.map"  -lmex -lmx -lmat -lm -o svd_mex_client.mexa64
+mkdir logs/
 
-icc -mkl -openmp svd_with_socket_server_intel_mkl.c socket_functions.c matrix_vector_functions_intel_mkl.c  -o svd_with_socket_server_intel_mkl
+MATLAB_INCLUDE="/usr/local/MATLAB/R2013b/extern/include"
+MATLAB_LIB="/usr/local/MATLAB/R2013b/bin/glnxa64"
+MATLAB_MAP_FILE="/usr/local/MATLAB/R2013b/extern/lib/glnxa64/mexFunction.map"
+
+SOCKET_INCLUDE="../socket_functions"
+
+icc -fpic -shared -DMATLAB_MEX_FILE -fno-omit-frame-pointer -pthread -I $MATLAB_INCLUDE -I $SOCKET_INCLUDE svd_mex_client.c "$SOCKET_INCLUDE"/socket_functions.c -L"$MATLAB_LIB" -Wl,--version-script,"$MATLAB_MAP_FILE"  -lmex -lmx -lmat -lm -o svd_mex_client.mexa64
+
+icc -mkl -openmp -I "$SOCKET_INCLUDE" svd_with_socket_server_intel_mkl.c "$SOCKET_INCLUDE"/socket_functions.c matrix_vector_functions_intel_mkl.c  -o svd_with_socket_server_intel_mkl
+
+
 
 You can modify the compile.sh script with proper paths and run that to compile all the examples.
 
 3) Run the code
 
-First make a directory called logs. This is needed for i/o communication between 
+First make a directory called logs (this was done in the compilation 
+step above). This is needed for i/o communication between 
 server and client.
 
 mkdir logs/
 
 Open Matlab in same directory as the compiled code.
-make sure intel mkl paths are set properly
+make sure intel mkl paths are set properly in the terminal shell 
+where Matlab is launched from
 i.e. source /opt/intel/bin/compilervars.sh intel64
 
 Create matrix:
