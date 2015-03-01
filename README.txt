@@ -3,7 +3,7 @@ Includes example of calling from Matlab the SVD from NVIDIA CULA and
 SVD and pivoted QR from Intel MKL library
 Written by Sergey Voronin, 2014 - 2015. 
 Should work on any recent Linux distribution.
-Tested on opensuse 13.1 with icc 14.03 and Matlab 2013b and 2014a.
+Tested on Ubuntu 14.04.2 with cuda 6, cula R16, icc 14.03 and Matlab 2013b and 2014a.
 
 ========= what is this ==============================
 
@@ -52,6 +52,8 @@ Afterwards, to set paths, use (in bash shell):
 source /opt/intel/bin/compilervars.sh intel64
 
 For NVIDIA CULA:
+install CUDA 
+get and install CULA package from http://www.culatools.com/downloads/dense/ 
 change parameters accordingly in setup_vars.sh and then run:
 source setup_vars.sh 
 
